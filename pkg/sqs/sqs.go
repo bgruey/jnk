@@ -20,7 +20,7 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 
 	_, err = fmt.Printf("Credentials: %+v",
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
+			key, secret, "",
 		)),
 	)
 
@@ -40,7 +40,7 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 	config, err := config.LoadDefaultConfig(
 		context.TODO(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
+			key, secret, "",
 		)),
 		config.WithRegion("eu-central-1"),
 	)
