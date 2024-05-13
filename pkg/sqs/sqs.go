@@ -15,22 +15,21 @@ type sqsClient struct {
 	svc      *sqs.Client
 }
 
-func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error) {
+func NewSQS(key string, secret string, region string, queueName string) (client *sqsClient, err error) {
 	client = new(sqsClient)
 
-	_, err = fmt.Printf("Credentials: %+v",
+	_, err = fmt.Printf("Credentials: %+v\n",
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
 			key, secret, "",
 		)),
 	)
-
 	if err != nil {
 		panic(err)
 	}
 
 	_, err = fmt.Printf(
-		"Region: %+v",
-		config.WithRegion("eu-central-1"),
+		"Region: %+v\n",
+		config.WithRegion(region),
 	)
 
 	if err != nil {
@@ -42,13 +41,14 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
 			key, secret, "",
 		)),
-		config.WithRegion("eu-central-1"),
+		config.WithRegion(region),
 	)
 
 	if err != nil {
 		panic(err)
 	}
 
+	fmt.Println("Got client")
 	client.svc = sqs.NewFromConfig(config)
 
 	url_result, err := client.svc.GetQueueUrl(
