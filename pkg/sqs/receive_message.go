@@ -1,23 +1,28 @@
 package sqs
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/sqs"
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/sqs"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 )
 
-func (s *sqsConfig) ReceiveMessage(timeout int64, max_messages int64) (messages []*sqs.Message, err error) {
-	msgResult, err := s.svc.ReceiveMessage(&sqs.ReceiveMessageInput{
-		AttributeNames: []*string{
-			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
+func (s *sqsClient) ReceiveMessages(timeout int32, max_messages int32) (messages []types.Message, err error) {
+	msgResult, err := s.svc.ReceiveMessage(
+		context.TODO(),
+		&sqs.ReceiveMessageInput{
+			AttributeNames: []types.QueueAttributeName{
+				types.QueueAttributeName(types.MessageSystemAttributeNameSentTimestamp),
+			},
+			MessageAttributeNames: []string{
+				string(types.MessageSystemAttributeNameAll),
+			},
+			QueueUrl:            s.QueueURL,
+			MaxNumberOfMessages: *aws.Int32(max_messages),
+			VisibilityTimeout:   timeout,
+			WaitTimeSeconds:     *aws.Int32(20),
 		},
-		MessageAttributeNames: []*string{
-			aws.String(sqs.QueueAttributeNameAll),
-		},
-		QueueUrl:            s.QueueURL,
-		MaxNumberOfMessages: aws.Int64(max_messages),
-		VisibilityTimeout:   &timeout,
-		WaitTimeSeconds:     aws.Int64(20),
-	})
+	)
 
 	if err != nil {
 		return

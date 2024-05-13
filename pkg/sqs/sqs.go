@@ -1,41 +1,46 @@
 package sqs
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/sqs"
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/sqs"
 )
 
-type sqsConfig struct {
+type sqsClient struct {
 	QueueURL *string
-	svc      *sqs.SQS
+	svc      *sqs.Client
 }
 
-func NewSQS(key, secret, region, queueName string) (config *sqsConfig, err error) {
-	config = new(sqsConfig)
+func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error) {
+	client = new(sqsClient)
 
-	sess, err := session.NewSession(&aws.Config{
-
-		Region:      aws.String(region),
-		Credentials: credentials.NewStaticCredentials(key, secret, ""),
-	})
-
-	if err != nil {
-		return
-	}
-
-	config.svc = sqs.New(sess)
-
-	urlResult, err := config.svc.GetQueueUrl(&sqs.GetQueueUrlInput{
-		QueueName: aws.String(queueName),
-	})
+	config, err := config.LoadDefaultConfig(
+		context.TODO(),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
+			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
+		)),
+	)
 
 	if err != nil {
 		return
 	}
 
-	config.QueueURL = urlResult.QueueUrl
+	client.svc = sqs.NewFromConfig(config)
+
+	url_result, err := client.svc.GetQueueUrl(
+		context.TODO(),
+		&sqs.GetQueueUrlInput{
+			QueueName: aws.String(queueName),
+		},
+	)
+
+	if err != nil {
+		return
+	}
+
+	client.QueueURL = url_result.QueueUrl
 
 	return
 }
