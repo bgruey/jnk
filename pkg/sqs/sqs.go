@@ -21,6 +21,7 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
 			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
 		)),
+		config.WithRegion("eu-central-1"),
 	)
 
 	if err != nil {
