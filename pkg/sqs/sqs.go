@@ -48,7 +48,7 @@ func NewSQS(key string, secret string, region string, queueName string) (client 
 		panic(err)
 	}
 
-	fmt.Println("Got client")
+	fmt.Printf("Got client: %+v\n", config)
 	client.svc = sqs.NewFromConfig(config)
 
 	url_result, err := client.svc.GetQueueUrl(
