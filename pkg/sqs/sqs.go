@@ -36,7 +36,7 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 	)
 
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	client.svc = sqs.NewFromConfig(config)
@@ -49,7 +49,7 @@ func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error
 	)
 
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	client.QueueURL = url_result.QueueUrl
