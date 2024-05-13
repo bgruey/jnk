@@ -18,15 +18,25 @@ type sqsClient struct {
 func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error) {
 	client = new(sqsClient)
 
-	fmt.Printf("Credentials: %+v",
+	_, err = fmt.Printf("Credentials: %+v",
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
 			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
 		)),
 	)
-	fmt.Printf(
+
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = fmt.Printf(
 		"Region: %+v",
 		config.WithRegion("eu-central-1"),
 	)
+
+	if err != nil {
+		panic(err)
+	}
+
 	config, err := config.LoadDefaultConfig(
 		context.TODO(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
