@@ -2,6 +2,8 @@ package sqs
 
 import (
 	"context"
+	"fmt"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -16,6 +18,15 @@ type sqsClient struct {
 func NewSQS(key, secret, region, queueName string) (client *sqsClient, err error) {
 	client = new(sqsClient)
 
+	fmt.Printf("Credentials: %+v",
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
+			"AWS_ACCESS_ONE", "AWS_SECRET_ONE", "",
+		)),
+	)
+	fmt.Printf(
+		"Region: %+v",
+		config.WithRegion("eu-central-1"),
+	)
 	config, err := config.LoadDefaultConfig(
 		context.TODO(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
