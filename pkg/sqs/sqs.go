@@ -49,7 +49,7 @@ func NewSQS(key string, secret string, region string, queueName string) (client 
 	}
 
 	client.svc = sqs.NewFromConfig(config)
-	fmt.Printf("Got client: %+v\n", config)
+	fmt.Printf("Got client: %+v\n", client.svc)
 
 	url_result, err := client.svc.GetQueueUrl(
 		context.TODO(),
