@@ -51,18 +51,18 @@ func NewSQS(key string, secret string, region string, queueName string) (client 
 	client.svc = sqs.NewFromConfig(config)
 	fmt.Printf("Got client: %+v\n", client.svc)
 
-	url_result, err := client.svc.GetQueueUrl(
-		context.TODO(),
-		&sqs.GetQueueUrlInput{
-			QueueName: aws.String(queueName),
-		},
-	)
+	// url_result, err := client.svc.GetQueueUrl(
+	// 	context.TODO(),
+	// 	&sqs.GetQueueUrlInput{
+	// 		QueueName: aws.String(queueName),
+	// 	},
+	// )
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	client.QueueURL = url_result.QueueUrl
+	client.QueueURL = &queueName // url_result.QueueUrl
 
 	return
 }
