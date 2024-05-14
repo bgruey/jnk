@@ -13,7 +13,7 @@ func (s *sqsClient) ReceiveMessages(timeout int, max_messages int) (messages []t
 	msgsLeft := max_messages
 	getXMsgs := 10 // AWS SDK max value
 
-	for true {
+	for {
 		// Should only ever be 0
 		if msgsLeft < 1 {
 			if msgsLeft != 0 {
