@@ -10,7 +10,7 @@ import (
 
 // Send a message to the SQS
 func (s *sqsClient) SendMessage(body string) (msgResult *sqs.SendMessageOutput, err error) {
-	fmt.Printf("Sending message:\n%s-----\n", body)
+	fmt.Printf("Sending message:\n%s\n\n", body)
 	msgResult, err = s.svc.SendMessage(
 		context.TODO(),
 		&sqs.SendMessageInput{
