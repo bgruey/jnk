@@ -2,7 +2,6 @@ package sqs
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
@@ -10,16 +9,18 @@ import (
 
 // Send a message to the SQS
 func (s *sqsClient) DeleteMessages(msgs []types.Message) (err error) {
-	var delOut *sqs.DeleteMessageOutput
+
 	for _, msg := range msgs {
-		delOut, err = s.svc.DeleteMessage(
+		_, err = s.svc.DeleteMessage(
 			context.TODO(),
 			&sqs.DeleteMessageInput{
 				QueueUrl:      s.QueueURL,
 				ReceiptHandle: msg.ReceiptHandle,
 			},
 		)
-		fmt.Printf("Delete: %v", delOut.ResultMetadata)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	// Batch Delete probably faster, but unsure of Id so far.
