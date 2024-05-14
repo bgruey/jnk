@@ -23,9 +23,9 @@ func (s *sqsClient) GetAttributes() {
 	if err != nil {
 		panic(err)
 	}
-	ret_b, err := json.Marshal(ret.Attributes)
+	ret_b, err := json.MarshalIndent(ret.Attributes, "", "  ")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Attributes: %v", ret_b)
+	fmt.Printf("Attributes: %s", string(ret_b))
 }
