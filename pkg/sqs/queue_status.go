@@ -2,6 +2,7 @@ package sqs
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
@@ -22,6 +23,9 @@ func (s *sqsClient) GetAttributes() {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Printf("Attributes: %v", ret)
+	ret_b, err := json.Marshal(ret)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Attributes: %v", ret_b)
 }
