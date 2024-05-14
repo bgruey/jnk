@@ -23,7 +23,7 @@ func (s *sqsClient) GetAttributes() {
 	if err != nil {
 		panic(err)
 	}
-	ret_b, err := json.Marshal(ret)
+	ret_b, err := json.Marshal(ret.Attributes)
 	if err != nil {
 		panic(err)
 	}
