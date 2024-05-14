@@ -20,12 +20,16 @@ func (s *sqsClient) GetAttributes() {
 			},
 		},
 	)
+
 	if err != nil {
 		panic(err)
 	}
+
 	ret_b, err := json.MarshalIndent(ret.Attributes, "", "  ")
+
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Attributes: %s", string(ret_b))
+
+	fmt.Printf("Attributes for %s\n%s", *s.QueueURL, string(ret_b))
 }
