@@ -11,8 +11,8 @@ func (s *sqsClient) ReceiveMessages(timeout int32, max_messages int32) (messages
 	msgResult, err := s.svc.ReceiveMessage(
 		context.TODO(),
 		&sqs.ReceiveMessageInput{
-			AttributeNames: []types.QueueAttributeName{
-				types.QueueAttributeName(types.MessageSystemAttributeNameSentTimestamp),
+			MessageSystemAttributeNames: []types.MessageSystemAttributeName{
+				types.MessageSystemAttributeNameAll,
 			},
 			MessageAttributeNames: []string{
 				string(types.MessageSystemAttributeNameAll),
