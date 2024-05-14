@@ -2,6 +2,8 @@ package sqs
 
 import (
 	"context"
+	"fmt"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
@@ -52,25 +54,11 @@ func (s *sqsClient) ReceiveMessages(timeout int, max_messages int) (messages []t
 
 		// Break on timeout condition, not as many messages available as requested
 		if len(msgResult.Messages) < getXMsgs {
+			fmt.Printf("Received only %d of %d messages, assuming queue empty.", len(msgResult.Messages), getXMsgs)
 			break
 		}
 
 	}
 
-	//for _, msg := range msgResult.Messages {
-	//	fmt.Printf("Message ID: %s\n", *msg.MessageId)
-	//	fmt.Printf("Message Body: %s\n", *msg.Body)
-	//
-	//	//Save Message
-	//
-	//	//// Delete Message
-	//	//_, err1 = svc.DeleteMessage(&sqs.DeleteMessageInput{
-	//	//	QueueUrl:      queueURL,
-	//	//	ReceiptHandle: msg.ReceiptHandle,
-	//	//})
-	//	//if err1 != nil {
-	//	//	panic(err1)
-	//	//}
-	//}
 	return
 }
