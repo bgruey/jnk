@@ -19,7 +19,7 @@ func (s *sqsClient) DeleteMessages(msgs []types.Message) (err error) {
 				ReceiptHandle: msg.ReceiptHandle,
 			},
 		)
-		fmt.Printf("Delete: %+v", delOut.ResultMetadata)
+		fmt.Printf("Delete: %v", delOut.ResultMetadata)
 	}
 
 	// Batch Delete probably faster, but unsure of Id so far.
