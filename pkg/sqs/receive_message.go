@@ -54,7 +54,7 @@ func (s *sqsClient) ReceiveMessages(timeout int, max_messages int) (messages []t
 
 		// Break on timeout condition, not as many messages available as requested
 		if len(msgResult.Messages) < getXMsgs {
-			fmt.Printf("Received only %d of %d messages, assuming queue empty.", len(msgResult.Messages), getXMsgs)
+			fmt.Printf("Received only %d of %d messages, assuming queue empty.", len(messages), max_messages)
 			break
 		}
 
