@@ -14,26 +14,10 @@ type sqsClient struct {
 }
 
 func NewSQS(key string, secret string, region string, queueName string) (client *sqsClient, err error) {
+
 	client = new(sqsClient)
 
-	// _, err = fmt.Printf("Credentials: %+v\n",
-	// 	config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-	// 		key, secret, "",
-	// 	)),
-	// )
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// _, err = fmt.Printf(
-	// 	"Region: %+v\n",
-	// 	config.WithRegion(region),
-	// )
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
+	// Create static credentials from params
 	config, err := config.LoadDefaultConfig(
 		context.TODO(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
@@ -46,21 +30,11 @@ func NewSQS(key string, secret string, region string, queueName string) (client 
 		panic(err)
 	}
 
+	// New sqs client
 	client.svc = sqs.NewFromConfig(config)
-	// fmt.Printf("Got client: %+v\n", client.svc)
-
-	// url_result, err := client.svc.GetQueueUrl(
-	// 	context.TODO(),
-	// 	&sqs.GetQueueUrlInput{
-	// 		QueueName: aws.String(queueName),
-	// 	},
-	// )
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
 	client.QueueURL = &queueName
+
+	client.PrintAttributes()
 
 	return
 }

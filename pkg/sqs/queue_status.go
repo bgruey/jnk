@@ -9,8 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 )
 
-// Send a message to the SQS
-func (s *sqsClient) GetAttributes() {
+func (s *sqsClient) GetAttributes() string {
 	ret, err := s.svc.GetQueueAttributes(
 		context.TODO(),
 		&sqs.GetQueueAttributesInput{
@@ -30,6 +29,9 @@ func (s *sqsClient) GetAttributes() {
 	if err != nil {
 		panic(err)
 	}
+	return string(ret_b)
+}
 
-	fmt.Printf("Attributes for %s\n%s", *s.QueueURL, string(ret_b))
+func (s *sqsClient) PrintAttributes() {
+	fmt.Printf("Attributes for %s\n%s", *s.QueueURL, s.GetAttributes())
 }
