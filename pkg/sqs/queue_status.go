@@ -33,5 +33,5 @@ func (s *sqsClient) GetAttributes() string {
 }
 
 func (s *sqsClient) PrintAttributes() {
-	fmt.Printf("Attributes for %s\n%s", *s.QueueURL, s.GetAttributes())
+	fmt.Printf("Attributes for %s\n%s\n", *s.QueueURL, s.GetAttributes())
 }

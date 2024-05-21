@@ -1,0 +1,10 @@
+
+
+services:
+  gosqstest:
+    container_name: gosqsqtest
+    build: 
+      context: ./app
+    init: true
+    env_file:
+      - ./app/.env
