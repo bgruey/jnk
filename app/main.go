@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/bgruey/jnk/pkg/sqs"
 	"os"
@@ -42,6 +43,8 @@ func main() {
 		source_queue.SendMessage(GetCSV(i + 1))
 	}
 
+	delCtx := context.TODO()
+
 	fmt.Println("Sent messages, receiving now")
 	msgs, err := source_queue.ReceiveMessages(10, 992)
 	if err != nil {
@@ -53,12 +56,12 @@ func main() {
 		dest_queue.SendMessage(*msg.Body)
 	}
 	fmt.Println("Deleting messages from source")
-	source_queue.DeleteMessages(msgs)
+	source_queue.DeleteMessages(delCtx, msgs)
 
 	msgs, err = dest_queue.ReceiveMessages(10, 200)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("Deleting messages from dest")
-	dest_queue.DeleteMessages(msgs)
+	dest_queue.DeleteMessages(delCtx, msgs)
 }
